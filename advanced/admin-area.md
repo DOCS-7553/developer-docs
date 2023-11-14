@@ -81,6 +81,74 @@ When you are ready with your new template and wish to test it, follow the steps 
 
 To apply the change to other admin users, please navigate to *Setup > Staff Management > Administrators* and edit the Template setting for the applicable admin users.
 
+## Translating
+
+### Adding a Language
+
+The admin language system in WHMCS allows you to create your own additional admin language translations.
+
+We recommend starting by duplicating one of the existing admin language files.
+
+{{% notice info %}}
+Admin language file names should be a single word, consisting of only lowercase letters and numbers. The file must end with the extension ```.php```.
+{{% /notice %}}
+
+To do this:
+
+1. Open an existing admin language file, for example `~/admin/lang/english.php`
+2. Save this file with a new name. The name you choose will display in the language selection menu when adding or editing an admin in WHMCS.
+3. Translate the words and phrases contained in it into your new language. Be careful not to change the language key names, only the words and phrases in the double quotes on each line.
+
+{{% notice tip %}}
+Be careful not to delete any of the quotation marks (") around the text strings or the semicolons on the ends of each line (;). If you want to use a quote character (") within your translated text, you must escape it. For example: ```\"```. The language files are written in PHP syntax so valid PHP code must be maintained.
+{{% /notice %}}
+
+4. Upload your new admin language file to your WHMCS installation's `~/admin/lang/` directory.
+
+When you are ready with your new admin language and wish to test it, follow the steps below:
+
+1. Log in to the Admin Area
+
+2. Navigate to *My Account* using the menu at the top of any page.
+
+3. Under the Language setting, select the name of the language you created above.
+
+4. Click *Save Changes* and you will immediately begin seeing your new language.
+
+### Language Overrides
+
+We provide unencoded admin language files to allow you to view the language strings that WHMCS uses in the Admin Area.
+
+We do not recommend editing these files directly. Instead, use override files.
+
+Admin language file overrides allow you to customize the admin language strings and phrases in a way that the upgrade process preserves safely.
+
+To customize admin language strings using overrides:
+
+1. Create an `overrides` directory within the `~/admin/lang/` directory.
+2. Create or copy the admin language file you want to override. For example, to create an override file for the English language, create the `~/admin/lang/overrides/english.php` file.
+3. Open the newly-created file in your preferred editor.
+4. Start the file with a <?php tag to indicate that this is a PHP file.
+5. Enter the variable(s) you wish to override. For example, if you wanted to change a custom ticket status, you would add the following content to the file, where ```$statusname``` is the name of the custom ticket status that you configured under **Configuration > System Settings > Ticket Statuses.** and **Status Name** is the value to display on the support ticket pages in the admin area, such as **Support > Support Tickets** :
+
+
+`~/admin/lang/overrides/english.php`
+```
+$_ADMINLANG['supportticketsstatus']['$statusname'] = "Status Name";
+```
+
+6. For each ticket status that you wish you change, repeat step #5. For example, a completed overrides file should look something like this:
+
+`~/admin/lang/overrides/english.php`
+```
+<?php
+$_ADMINLANG['supportticketsstatus']['teststatus'] = "Test Status";
+$_ADMINLANG['supportticketsstatus']['senttobilling'] = "Sent To Billing";
+$_ADMINLANG['supportticketsstatus']['contactvendor'] = "Contact Vendor"; 
+```
+
+7. Save the file.
+
 ## Further Customisation via Hooks
 
 There are a number of hook points that can be used to introduce customisations. For a full list and the latest documentation, please visit our [Admin Area Hook Reference](https://developers.whmcs.com/hooks-reference/admin-area/)
